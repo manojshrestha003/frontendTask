@@ -1,14 +1,37 @@
 'use client'
 import React, { useState } from 'react';
-import MainCourseCard from './MainCourseCard';
-import SmallCourseCard from './SmallCourseCard';
+import { LayoutGroup } from 'framer-motion';
+import CourseCard from './CourseCard';
+
+interface CourseData {
+  title: React.ReactNode;
+  description: React.ReactNode;
+  count: string;
+}
+
+const courses: CourseData[] = [
+  {
+    title: <>All Courses</>,
+    description: <>courses you're powering<br />through right now.</>,
+    count: '23',
+  },
+  {
+    title: <>Upcoming Courses</>,
+    description: <>exciting new courses waiting<br />to boost your skills.</>,
+    count: '05',
+  },
+  {
+    title: <>Ongoing Courses</>,
+    description: <>currently happening—don't<br />miss out on the action!</>,
+    count: '10',
+  },
+];
 
 const CourseExplorer = () => {
-  const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [expandedIndex, setExpandedIndex] = useState(0);
 
   const handleCardClick = (index: number) => {
-    setActiveCard(index);
-    setTimeout(() => setActiveCard(null), 1000);
+    setExpandedIndex(index);
   };
 
   return (
@@ -24,32 +47,20 @@ const CourseExplorer = () => {
         </h1>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-5 items-stretch">
-
-        <MainCourseCard
-          active={activeCard === 0}
-          onClick={() => handleCardClick(0)}
-        />
-
-        <div className="flex gap-5">
-          <SmallCourseCard
-            title={<>Upcoming <br /> Courses</>}
-            description={<>exciting new courses waiting <br /> to boost your skills.</>}
-            count="05"
-            active={activeCard === 1}
-            onClick={() => handleCardClick(1)}
-          />
-
-          <SmallCourseCard
-            title={<>Ongoing <br /> Courses</>}
-            description={<>currently happening—don't <br /> miss out on the action!</>}
-            count="10"
-            active={activeCard === 2}
-            onClick={() => handleCardClick(2)}
-          />
+      <LayoutGroup>
+        <div className="flex flex-col lg:flex-row gap-5 items-start">
+          {courses.map((course, index) => (
+            <CourseCard
+              key={index}
+              title={course.title}
+              description={course.description}
+              count={course.count}
+              isExpanded={index === expandedIndex}
+              onClick={() => handleCardClick(index)}
+            />
+          ))}
         </div>
-
-      </div>
+      </LayoutGroup>
     </div>
   );
 };

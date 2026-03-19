@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function Task1Page() {
   return (
-    <main className="min-h-screen bg-[#FFFFFF] pt-20">
+    <main className="min-h-screen bg-[#FFFFFF] ">
       <div className="container mx-auto">
         <FeatureGrid />
       </div>
